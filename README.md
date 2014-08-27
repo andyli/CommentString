@@ -13,12 +13,12 @@ import comments.CommentString.*;
 
 class Test {
 	static function main():Void {
-		var name = "Join";
+		var name = "John";
 		var age = 33;
 		var str = comment(unindent, format) /**
 			My name is <strong>$name</strong> and I'm <em>$age</em> years old.
 		**/;
-		trace(str); // Test.hx:10: My name is <strong>Join</strong> and I'm <em>33</em> years old.
+		trace(str); // Test.hx:10: My name is <strong>John</strong> and I'm <em>33</em> years old.
 	}
 }
 ```
