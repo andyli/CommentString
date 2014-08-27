@@ -1,6 +1,8 @@
 CommentString
 =============
 
+[![Build Status](https://travis-ci.org/andyli/CommentString.svg?branch=development)](https://travis-ci.org/andyli/CommentString)
+
 A Haxe library that allows you to use `/*Comment*/` as [Heredoc String](http://en.wikipedia.org/wiki/Here_document).
 
 ## Usage
