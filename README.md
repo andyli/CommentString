@@ -24,9 +24,9 @@ class Test {
 ## Details
 
 `CommentString.comment()` is a macro function that will read the immediately trailing comment(s) and 
-reture it as a constant `String`.
+return it as a constant `String`.
 
-`CommentString.comment()` accepts optional, variable-lengthed `transform:String->String` arguments to format the `String`.
+It accepts optional, variable-lengthed `transform:String->String` arguments to format the `String`.
 There are 2 transform functions provided by `CommentString`:
 
  * `unindent` is a macro function that removes the leading indentation of each line.
@@ -37,7 +37,7 @@ Note that custom transform function, being macro function or not, can also be us
 Despite of normal haxe single-line comment `//comment`, or multi-line comment `/*comment*/`, 
 there is a special one:
 ```haxe
-var str = comment(unindent)
+var str = comment()
 /**
 Comment.
 **/;
@@ -52,4 +52,4 @@ var str = comment(unindent)
 // so long.
 ;
 ```
-which will be read as `"A sentence\nthat is\nso long."`. It is useful since a lot of editors allow commenting out block of text in this style (e.g. Sublime Text, <kbd>ctrl</kbd> + <kbd>/</kbd>).
+which will be read as `"A sentence\nthat is\nso long."`. It is useful since a lot of editors allow commenting out block of text in this style (e.g. Sublime Text, <kbd>ctrl</kbd> + <kbd>/</kbd>). Additionally in this style there is no need to escape anything in the comment, unlike `/**/` which you have to avoid `*/` in the comment. However, usually the `unindent` transform is needed since there are spaces after `//`.
