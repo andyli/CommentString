@@ -49,10 +49,10 @@ class CommentString {
 	static function readComments(string:String):Array<String> {
 		var cm = []; //all the comment strings
 
-		var mlR  = ~/(?s)^\/\*(.*?)\*\//;         //multi-line comment, i.e. /*comment*/
-		var slsR = ~/^\/\/(.*\r?\n)(?=\s*\/\/)/;  //single-line comment, follows by another single-line comment
-		var slR  = ~/^\/\/(.*)/;                  //single-line comment, i.e. //comment
-		var spR  = ~/^\s+/;                       //spaces
+		var mlR  = ~/(?s)^\/\*(.*?)\*\//;              //multi-line comment, i.e. /*comment*/
+		var slsR = ~/^\/\/([^\r\n]*\r?\n)(?=\s*\/\/)/; //single-line comment, follows by another single-line comment
+		var slR  = ~/^\/\/([^\r\n]*)/;                 //single-line comment, i.e. //comment
+		var spR  = ~/^\s+/;                            //spaces
 		while (string != "") {
 			if (mlR.match(string)) {
 				var c = mlR.matched(1);
