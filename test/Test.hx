@@ -7,6 +7,14 @@ class Test extends TestCase
 
 public function testSimple():Void {
 
+assertEquals("", comment() /**/);
+assertEquals(
+"",
+comment() //
+);
+
+assertEquals(" ", comment() /* */);
+
 assertEquals("123", comment() /*123*/);
 
 assertEquals(
@@ -168,6 +176,26 @@ assertEquals("First letter of \"ABC\": A", comment(unindent, format)/**
 } //testInterpolation
 
 
+public function testError():Void {
+
+assertCompliationError(comment());
+
+}
+
+	macro function assertCompliationError(es:Array<haxe.macro.Expr>) {
+		return switch (es) {
+			case [_, e]:
+				var errored = try {
+					haxe.macro.Context.typeof(e);
+					haxe.macro.Context.error('expecting compliation error', e.pos);
+					false;
+				} catch(e:Dynamic) {
+					true;
+				}
+				return macro assertTrue($v{errored});
+			case _: haxe.macro.Context.error('expect 1 argument but got ${es.length-1}', es[0].pos);
+		}
+	}
 
 	static function main() {
 		var runner = new TestRunner();

@@ -12,7 +12,10 @@ class CommentString {
 	macro static public function comment(transforms:Array<ExprOf<String->String>>):ExprOf<String> {
 		var pos = Context.getPosInfos(Context.currentPos());
 		var str = File.getContent(Context.resolvePath(pos.file)).substring(pos.max);
-		var expr:Expr = macro $v{readComments(str).join("")};
+		var cms = readComments(str);
+		if (cms.length == 0)
+			Context.error("No comment was found.", Context.currentPos());
+		var expr:Expr = macro $v{cms.join("")};
 
 		while (transforms.length > 0) {
 			var t = transforms.shift();
