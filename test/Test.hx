@@ -180,6 +180,22 @@ public function testError():Void {
 
 assertCompliationError(comment());
 
+assertCompliationError(comment() /****/);
+
+assertCompliationError(comment() 
+/**
+**/);
+
+assertCompliationError(comment() 
+/**0
+123
+**/);
+
+assertCompliationError(comment() 
+/**
+123
+4**/);
+
 }
 
 	macro function assertCompliationError(es:Array<haxe.macro.Expr>) {

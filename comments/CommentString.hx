@@ -12,9 +12,15 @@ class CommentString {
 	macro static public function comment(transforms:Array<ExprOf<String->String>>):ExprOf<String> {
 		var pos = Context.getPosInfos(Context.currentPos());
 		var str = File.getContent(Context.resolvePath(pos.file)).substring(pos.max);
-		var cms = readComments(str);
+		var cms = try {
+			readComments(str);
+		} catch (e:Dynamic) {
+			Context.error(e, Context.currentPos());
+		}
+
 		if (cms.length == 0)
 			Context.error("No comment was found.", Context.currentPos());
+
 		var expr:Expr = macro $v{cms.join("")};
 
 		while (transforms.length > 0) {
@@ -61,13 +67,22 @@ class CommentString {
 				var c = mlR.matched(1);
 				if (c.startsWith("*") || c.endsWith("*")) {
 					var lines = ~/(?:\r\n|\n)/g.split(c);
-					if (c.startsWith("*"))
-						lines.shift();
-					if (c.endsWith("*"))
-						lines.pop();
-					c = lines.join(c.indexOf("\r\n") >= 0 ? "\r\n" : "\n");
+					if (c.startsWith("*")) {
+						var first = lines.shift();
+						if (!~/^\*\s*$/.match(first)) {
+							throw "There should not be any non-space character in the first line, after `/**`.";
+						}
+					}
+					if (c.endsWith("*")) {
+						var last = lines.pop();
+						if (!~/^\s*\*$/.match(last)) {
+							throw "There should not be any non-space character in the last line, before `**/`.";
+						}
+					}
+					c = lines.length > 0 ? lines.join(c.indexOf("\r\n") >= 0 ? "\r\n" : "\n") : null;
 				}
-				cm.push(c);
+				if (c != null)
+					cm.push(c);
 				string = mlR.matchedRight();
 			} else if (slsR.match(string)) {
 				cm.push(slsR.matched(1));
