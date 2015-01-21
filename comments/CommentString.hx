@@ -193,8 +193,3 @@ class CommentString {
 	}
 	#end
 }
-
-enum CM {
-	multi(s:String);
-	single(s:String);
-}
