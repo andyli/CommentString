@@ -159,6 +159,14 @@ ghi", comment(unindent)
 	// ghi
 );
 
+assertEquals(
+"	123
+abc",
+comment(unindent,format)/**
+	123
+abc
+**/);
+
 } //testTransform
 
 public function testInterpolation():Void {
