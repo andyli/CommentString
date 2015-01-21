@@ -1,0 +1,10 @@
+{
+	"name": "CommentString",
+	"url" : "https://github.com/andyli/CommentString",
+	"license": "MIT",
+	"tags": ["cross", "macro", "string"],
+	"description": "/*Comment*/ as Heredoc String.",
+	"version": "0.1.0",
+	"releasenote": "Initial release, everything is working correctly.",
+	"contributors": ["andyli"]
+}
