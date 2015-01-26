@@ -1,50 +1,37 @@
 version: "{build}"
 
-os: unstable #http://help.appveyor.com/discussions/suggestions/427-pre-install-cygwin
-
-platform:
-    - Win32
-
 environment:
     global:
-        HAXELIB_ROOT: C:/projects/haxelib
-    matrix:
-        -   CYG_ARCH: x86
-            CYG_ROOT: C:/cygwin
-            CYG_SETUP: C:/cygwin/setup-x86.exe
-            WODI_ARCH: 32
-            MINGW_ARCH: i686
-        # -   CYG_ARCH: x86_64
-        #     CYG_ROOT: C:/cygwin64
-        #     WODI_ARCH: 64
-        #     MINGW_ARCH: x86_64
+        HAXELIB_ROOT: C:\projects\haxelib
 
 install:
     - cmd: cinst haxe
     - cmd: RefreshEnv
     - mkdir "%HAXELIB_ROOT%"
     - haxelib setup "%HAXELIB_ROOT%"
-    - haxelib install hxcpp
-    - haxelib install nodejs
-    - haxelib install hxjava
-    - haxelib install hxcs
+    - haxelib install hxcpp >NUL
+    - haxelib install nodejs >NUL
+    - haxelib install hxjava >NUL
+    # - haxelib install hxcs >NUL
+    - haxelib list
 
 build_script:
-    - haxe -main Test -cp test -debug -cpp bin
-    - haxe -main Test -cp test -debug -neko bin/Test.n
-    - haxe -main Test -cp test -debug -java bin
-    - haxe -main Test -cp test -debug -cs bin
-    - haxe -main Test -cp test -debug -swf bin/Test.swf
-    - haxe -main Test -cp test -debug -as3 bin
-    - haxe -main Test -cp test -debug -js bin/Test.js -lib nodejs
-    - haxe -main Test -cp test -debug -php bin
-    - haxe -main Test -cp test -debug -python bin/Test.py
+    - mkdir bin
+    - haxe -main Test -cp test -debug -cpp bin\cpp
+    - haxe -main Test -cp test -debug -neko bin\Test.n
+    - haxe -main Test -cp test -debug -java bin\java
+    - haxe -main Test -cp test -debug -swf bin\Test.swf
+    - haxe -main Test -cp test -debug -as3 bin\as3
+    - haxe -main Test -cp test -debug -js bin\Test.js -lib nodejs
+    - haxe -main Test -cp test -debug -php bin\php
+    # - haxe -main Test -cp test -debug -cs bin\cs
+    # - haxe -main Test -cp test -debug -python bin\Test.py
 
 test_script:
-    - ./bin/Test-debug.exe
-    - neko bin/Test.n
-    - java -jar bin/Test-Debug.jar
-    - ./bin/bin/Test-Debug.exe
-    # - node bin/Test.js
-    # - php bin/index.php
-    # - python3 bin/Test.py
+    - bin\cpp\Test-debug.exe
+    - neko bin\Test.n
+    - java -jar bin\java\Test-Debug.jar
+    # - node bin\Test.js
+    # - php bin\php\index.php
+    # - bin\cs\bin\Test-Debug.exe
+    # - python3 bin\Test.py
