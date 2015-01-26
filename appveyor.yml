@@ -20,7 +20,8 @@ environment:
         #     MINGW_ARCH: x86_64
 
 install:
-    - cinst haxe
+    - cmd: cinst haxe
+    - cmd: RefreshEnv
     - mkdir "%HAXELIB_ROOT%"
     - haxelib setup "%HAXELIB_ROOT%"
     - haxelib install hxcpp
