@@ -2,6 +2,12 @@ import comments.CommentString.*;
 
 import haxe.unit.*;
 
+typedef Pos = {
+	file:String,
+	min:Int,
+	max:Int,
+}
+
 class Test extends TestCase
 {
 
@@ -159,14 +165,6 @@ ghi", comment(unindent)
 	// ghi
 );
 
-assertEquals(
-"	123
-abc",
-comment(unindent,format)/**
-	123
-abc
-**/);
-
 } //testTransform
 
 public function testInterpolation():Void {
@@ -206,19 +204,47 @@ assertCompliationError(comment()
 
 }
 
-	macro function assertCompliationError(es:Array<haxe.macro.Expr>) {
-		return switch (es) {
-			case [_, e]:
-				var errored = try {
-					haxe.macro.Context.typeof(e);
-					haxe.macro.Context.error('expecting compliation error', e.pos);
-					false;
-				} catch(e:Dynamic) {
-					true;
-				}
-				return macro assertTrue($v{errored});
-			case _: haxe.macro.Context.error('expect 1 argument but got ${es.length-1}', es[0].pos);
+public function testPos():Void {
+
+var a1:Pos, a2:Pos;
+'
+${a1 = getPos()}
+
+${a2 = getPos()}
+';
+
+var b1:Pos, b2:Pos;
+comment(unindent, format)
+/*
+${b1 = getPos()}
+
+${b2 = getPos()}
+*/;
+
+assertEquals(a2.min - a1.min, b2.min - b1.min);
+assertEquals(a2.max - a1.max, b2.max - b1.max);
+assertEquals(a1.max - a1.min, b1.max - b1.min);
+assertEquals(a2.max - a2.min, b2.max - b2.min);
+assertTrue(b1.min != b2.min);
+assertTrue(b1.max != b2.max);
+
+}
+
+	macro static function assertCompliationError(e:haxe.macro.Expr) {
+		var errored = try {
+			haxe.macro.Context.typeof(e);
+			haxe.macro.Context.error('expecting compliation error', e.pos);
+			false;
+		} catch(e:Dynamic) {
+			true;
 		}
+		return macro assertTrue($v{errored});
+	}
+
+	macro static function getPos() {
+		var pos = haxe.macro.Context.currentPos();
+		var posInfo = haxe.macro.Context.getPosInfos(pos);
+		return macro $v{posInfo};
 	}
 
 	static function main() {

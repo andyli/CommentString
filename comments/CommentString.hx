@@ -3,6 +3,7 @@ package comments;
 #if macro
 import haxe.macro.Context;
 import haxe.macro.Expr;
+import haxe.macro.*;
 using haxe.macro.ExprTools;
 import sys.io.*;
 using StringTools;
@@ -41,10 +42,17 @@ class CommentString {
 	macro static public function format(string:ExprOf<String>):ExprOf<String> {
 		return switch (string.expr) {
 			case EConst(CString(s)):
-				haxe.macro.MacroStringTools.formatString(s, string.pos);
+				MacroStringTools.formatString(s, string.pos);
+			case EBinop(OpAdd, e1, e2):
+				macro comments.CommentString.format($e1) + comments.CommentString.format($e2);
 			case _:
 				var inner = Context.getTypedExpr(Context.typeExpr(string));
-				macro comments.CommentString.format($inner);
+				switch (inner.expr) {
+					case EConst(CString(_)) | EBinop(OpAdd, _, _):
+						macro comments.CommentString.format($inner);
+					case _:
+						throw "expecting string literals.";
+				}
 		}
 	}
 
@@ -99,7 +107,7 @@ class CommentString {
 		var linebreakR = ~/(?:\r\n|\n)/g;
 		var lines = [];
 		var min = posInfos.min;
-		var correctPos = s.length == posInfos.max - posInfos.min + 1;
+		var correctPos = s.length == posInfos.max - posInfos.min;
 		// trace(correctPos);
 		while (linebreakR.match(s)) {
 			var line = linebreakR.matchedLeft();
