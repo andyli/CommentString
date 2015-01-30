@@ -120,7 +120,7 @@ class CommentString {
 				max: max,
 			});
 			s = linebreakR.matchedRight();
-			if (correctPos) min = max + 1;
+			if (correctPos) min = max;
 		}
 		lines.push({
 			line: s,

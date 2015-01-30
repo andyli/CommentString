@@ -207,19 +207,21 @@ assertCompliationError(comment()
 public function testPos():Void {
 
 var a1:Pos, a2:Pos;
-'
-${a1 = getPos()}
+	'
+	${a1 = getPos()}
+	test
 
-${a2 = getPos()}
-';
+	${a2 = getPos()}
+	';
 
 var b1:Pos, b2:Pos;
-comment(unindent, format)
-/*
-${b1 = getPos()}
+comment(format)
+	/*
+	${b1 = getPos()}
+	test
 
-${b2 = getPos()}
-*/;
+	${b2 = getPos()}
+	*/;
 
 assertEquals(a2.min - a1.min, b2.min - b1.min);
 assertEquals(a2.max - a1.max, b2.max - b1.max);
@@ -228,6 +230,57 @@ assertEquals(a2.max - a2.min, b2.max - b2.min);
 assertTrue(b1.min != b2.min);
 assertTrue(b1.max != b2.max);
 
+
+
+var a1:Pos, a2:Pos;
+	'
+	${a1 = getPos()}
+	test
+
+	${a2 = getPos()}
+	';
+
+var b1:Pos, b2:Pos;
+comment(unindent, format)
+	/*
+	${b1 = getPos()}
+	test
+
+	${b2 = getPos()}
+	*/;
+
+assertEquals(a2.min - a1.min, b2.min - b1.min);
+assertEquals(a2.max - a1.max, b2.max - b1.max);
+assertEquals(a1.max - a1.min, b1.max - b1.min);
+assertEquals(a2.max - a2.min, b2.max - b2.min);
+assertTrue(b1.min != b2.min);
+assertTrue(b1.max != b2.max);
+
+
+
+var a1:Pos, a2:Pos;
+	'
+	${a1 = getPos()}
+	test
+
+	${a2 = getPos()}
+	';
+
+var b1:Pos, b2:Pos;
+comment(unindent, format)
+	/**
+	${b1 = getPos()}
+	test
+
+	${b2 = getPos()}
+	**/;
+
+assertEquals(a2.min - a1.min, b2.min - b1.min);
+assertEquals(a2.max - a1.max, b2.max - b1.max);
+assertEquals(a1.max - a1.min, b1.max - b1.min);
+assertEquals(a2.max - a2.min, b2.max - b2.min);
+assertTrue(b1.min != b2.min);
+assertTrue(b1.max != b2.max);
 }
 
 	macro static function assertCompliationError(e:haxe.macro.Expr) {
