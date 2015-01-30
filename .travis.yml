@@ -1,5 +1,9 @@
 language: node_js
 
+env:
+  global:
+    secure: PnZ+tjKasUyaofuc1AzPieN1PO06uSqC5Gpi51IwLe2KxcLr1d2aVQmORWNqVlZNSfx1Gym8Jr6OKjSnSjSnUKY0hJAC4r8+/R6gYo4+6Fxr2SCOd8OXabsmCajqv/+PE95sqTHzxbcWupyfqH2phvjUZT7Opxc6rmS0kBCsG2Q=
+
 before_script:
   - sudo apt-get update
   - sudo apt-get install python-software-properties -y # for the next command
@@ -28,3 +32,6 @@ script:
   - haxe -main Test -cp test -debug -swf bin/Test.swf
   - haxe -main Test -cp test -debug -as3 bin
   # - haxe -main Test -cp test -debug -python bin/Test.py && python3 bin/Test.py
+
+after_success:
+  - if [ "${TRAVIS_TAG}" ]; then zip haxelib.zip -r haxelib.json README.md comments && haxelib submit haxelib.zip <<< $HAXELIB_PW; fi;
