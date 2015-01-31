@@ -6,6 +6,20 @@ CommentString
 
 A Haxe library that allows you to use `/*Comment*/` as [Heredoc String](http://en.wikipedia.org/wiki/Here_document).
 
+## Install
+
+Currently CommentString supports Haxe 3.1.3+. It is completely cross-target since it is mainly macros inside.
+
+You can install CommentString via [haxelib](http://haxe.org/manual/haxelib.html):
+```
+haxelib install CommentString
+```
+
+Then add CommentString to your project's hxml file:
+```
+-lib CommentString
+```
+
 ## Usage
 
 ```haxe
