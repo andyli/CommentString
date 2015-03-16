@@ -5,8 +5,7 @@ environment:
         HAXELIB_ROOT: C:\projects\haxelib
 
 install:
-    - cmd: cinst haxe
-    - cmd: RefreshEnv
+    - cmd: cinst haxe -y
     - mkdir "%HAXELIB_ROOT%"
     - haxelib setup "%HAXELIB_ROOT%"
     - haxelib install hxcpp >NUL
