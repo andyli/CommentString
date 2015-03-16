@@ -308,7 +308,7 @@ assertTrue(b1.max != b2.max);
 		#if sys
 		Sys.exit(success ? 0 : 1);
 		#elseif nodejs
-		js.Node.process.exit(success ? 0 : 1);
+		(untyped process).exit(success ? 0 : 1);
 		#end
 	}
 }
