@@ -10,9 +10,9 @@ install:
     - mkdir "%HAXELIB_ROOT%"
     - haxelib setup "%HAXELIB_ROOT%"
     - haxelib install hxcpp >NUL
-    - haxelib install nodejs >NUL
     - haxelib install hxjava >NUL
     # - haxelib install hxcs >NUL
+    - haxelib git hxnodejs https://github.com/HaxeFoundation/hxnodejs.git >NUL
     - haxelib list
 
 build_script:
@@ -22,7 +22,7 @@ build_script:
     - haxe -main Test -cp test -debug -java bin\java
     - haxe -main Test -cp test -debug -swf bin\Test.swf
     - haxe -main Test -cp test -debug -as3 bin\as3
-    - haxe -main Test -cp test -debug -js bin\Test.js -lib nodejs
+    - haxe -main Test -cp test -debug -js bin\Test.js -lib hxnodejs
     - haxe -main Test -cp test -debug -php bin\php
     # - haxe -main Test -cp test -debug -cs bin\cs
     # - haxe -main Test -cp test -debug -python bin\Test.py
