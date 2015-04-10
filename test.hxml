@@ -1,0 +1,62 @@
+-main Test
+-cp test
+-debug
+--each
+
+--next
+-cmd echo "\ncpp:"
+--next
+-cpp bin
+-cmd ./bin/Test-debug
+
+--next
+-cmd echo "\nphp:"
+--next
+-php bin
+-cmd php bin/index.php
+
+--next
+-cmd echo "\nneko:"
+--next
+-neko bin/Test.n
+-cmd neko bin/Test.n
+
+--next
+-cmd echo "\njs:"
+--next
+-js bin/Test.js
+-D nodejs
+-cmd node bin/Test.js
+
+--next
+-cmd echo "\njava:"
+--next
+-java bin
+-cmd java -jar bin/Test-Debug.jar
+
+--next
+-cmd echo "\ncs:"
+--next
+-cs bin
+-cmd mono bin/bin/Test-Debug.exe
+
+--next
+-cmd echo "\nswf:"
+--next
+-swf bin/Test.swf
+
+--next
+-cmd echo "\nas3:"
+--next
+-as3 bin
+
+# --next
+# -cmd echo "\npython:"
+# --next
+# -python bin/Test.py
+# -cmd python3 bin/Test.py
+
+--next
+-cmd echo "\ninterp:"
+--next 
+--interp

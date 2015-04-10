@@ -1,36 +1,36 @@
-language: node_js
+language: haxe
 
-env:
-  global:
-    secure: PnZ+tjKasUyaofuc1AzPieN1PO06uSqC5Gpi51IwLe2KxcLr1d2aVQmORWNqVlZNSfx1Gym8Jr6OKjSnSjSnUKY0hJAC4r8+/R6gYo4+6Fxr2SCOd8OXabsmCajqv/+PE95sqTHzxbcWupyfqH2phvjUZT7Opxc6rmS0kBCsG2Q=
+hxml:
+  - test.hxml
 
-before_script:
+matrix:
+  include:
+    - haxe: "3.1.3"
+      install:
+        - yes | haxelib install hxcpp
+        - yes | haxelib install hxjava
+        - yes | haxelib install hxcs
+        - haxelib list
+
+    - haxe: "development"
+      install:
+        # install and rebuild hxcpp
+        - haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git
+        - cd $(haxelib path hxcpp | head -1)tools/hxcpp && haxe compile.hxml
+        - cd $(haxelib path hxcpp | head -1)project && neko build.n linux-m64
+        - cd $TRAVIS_BUILD_DIR
+
+        # install hxjava and hxcs
+        - haxelib git hxjava https://github.com/HaxeFoundation/hxjava.git
+        - haxelib git hxcs https://github.com/HaxeFoundation/hxcs.git
+
+        - haxelib list
+
+before_install:
   - sudo apt-get update
-  - sudo apt-get install python-software-properties -y # for the next command
-  - sudo add-apt-repository ppa:eyecreate/haxe -y
-  - sudo apt-get update
-  - sudo apt-get install haxe -y
   - sudo apt-get install php5 -y
   - sudo apt-get install gcc-multilib g++-multilib -y  # for hxcpp
   - sudo apt-get install mono-devel mono-mcs -y        # for hxcs
-  # - sudo apt-get install python3 -y
-  - mkdir ~/haxelib
-  - haxelib setup ~/haxelib
-  - haxelib install hxcpp
-  - haxelib install hxjava
-  - haxelib install hxcs
-
-script:
-  - haxe -main Test -cp test -debug --interp
-  - haxe -main Test -cp test -debug -cpp bin && ./bin/Test-debug
-  - haxe -main Test -cp test -debug -php bin && php bin/index.php
-  - haxe -main Test -cp test -debug -neko bin/Test.n && neko bin/Test.n
-  - haxe -main Test -cp test -debug -js bin/Test.js -D nodejs && node bin/Test.js
-  - haxe -main Test -cp test -debug -java bin && java -jar bin/Test-Debug.jar
-  - haxe -main Test -cp test -debug -cs bin && mono bin/bin/Test-Debug.exe
-  - haxe -main Test -cp test -debug -swf bin/Test.swf
-  - haxe -main Test -cp test -debug -as3 bin
-  # - haxe -main Test -cp test -debug -python bin/Test.py && python3 bin/Test.py
 
 after_success:
   - if [[ $TRAVIS_TAG = v[0-9]* ]]; then zip haxelib.zip -r haxelib.json README.md comments && haxelib submit haxelib.zip <<< $HAXELIB_PW; fi;
