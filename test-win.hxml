@@ -9,11 +9,11 @@
 -cpp bin
 -cmd bin\Test-debug.exe
 
---next
--cmd echo "\nphp:"
---next
--php bin
--cmd php bin\index.php
+# --next
+# -cmd echo "\nphp:"
+# --next
+# -php bin
+# -cmd php bin\index.php
 
 --next
 -cmd echo "\nneko:"
