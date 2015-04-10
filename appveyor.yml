@@ -14,5 +14,7 @@ install:
     # - haxelib install hxcs > log.txt || type log.txt
     - haxelib list
 
+build: off
+
 test_script:
     - haxe test-win.hxml
