@@ -1,10 +1,26 @@
 language: haxe
 
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - php5-cli
+      - mono-devel
+      - mono-mcs
+
 hxml:
   - test.hxml
 
 matrix:
   include:
+    - haxe: "3.2.0"
+      install:
+        - yes | haxelib install hxcpp
+        - yes | haxelib install hxjava
+        - yes | haxelib install hxcs
+        - haxelib list
+
     - haxe: "3.1.3"
       install:
         - yes | haxelib install hxcpp
@@ -25,12 +41,6 @@ matrix:
         - haxelib git hxcs https://github.com/HaxeFoundation/hxcs.git
 
         - haxelib list
-
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install php5 -y
-  - sudo apt-get install gcc-multilib g++-multilib -y  # for hxcpp
-  - sudo apt-get install mono-devel mono-mcs -y        # for hxcs
 
 after_success:
   - if [[ $TRAVIS_TAG = v[0-9]* ]]; then zip haxelib.zip -r haxelib.json README.md comments && haxelib submit haxelib.zip <<< $HAXELIB_PW; fi;
