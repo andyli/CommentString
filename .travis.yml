@@ -30,8 +30,13 @@ matrix:
 
     - haxe: "development"
       install:
-        # install hxcpp, hxjava and hxcs
+        # install hxcpp
         - haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git
+        - pushd $(haxelib path hxcpp | head -1)
+        -   pushd tools/hxcpp; haxe compile.hxml; popd;
+        -   pushd project; neko build.n; popd;
+        - popd
+        # install hxjava and hxcs
         - haxelib git hxjava https://github.com/HaxeFoundation/hxjava.git
         - haxelib git hxcs https://github.com/HaxeFoundation/hxcs.git
         - haxelib list
