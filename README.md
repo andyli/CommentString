@@ -71,6 +71,25 @@ var str = comment(unindent)
 ```
 which will be read as `"A sentence\nthat is\nso long."`. It is useful since a lot of editors allow commenting out block of text in this style (e.g. Sublime Text, <kbd>ctrl</kbd> + <kbd>/</kbd>). Additionally in this style there is no need to escape anything in the comment, unlike `/**/` which you have to avoid `*/` in the comment. However, usually the `unindent` transform is needed since there are spaces after `//`.
 
+It would be useful to create a shortcut function if there is a set of formatters that we often use. We can create such helper function as follows:
+```
+class Test {
+    macro static public function cm() {
+        var pos = haxe.macro.Context.currentPos();
+        return macro @:pos(pos) comments.CommentString.comment(
+            comments.CommentString.unindent,
+            comments.CommentString.format
+        );
+    }
+    static function main() {
+        var str = cm()/**
+            testing!!
+        **/;
+        trace(str); //testing!!
+    }
+}
+```
+
 ## License
 
 The MIT License (MIT)
