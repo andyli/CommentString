@@ -5,6 +5,7 @@ environment:
         HAXELIB_ROOT: C:\projects\haxelib
 
 install:
+    - ps: Set-Service wuauserv -StartupType Manual
     - cinst haxe -y
     - RefreshEnv
     - mkdir "%HAXELIB_ROOT%"
