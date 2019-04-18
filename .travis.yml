@@ -9,27 +9,20 @@ addons:
       - mono-devel
       - mono-mcs
 
-hxml:
-  - test.hxml
-
 matrix:
   include:
-    - haxe: "3.2.1"
+    - haxe: "3.4.7"
       install:
         - yes | haxelib install hxcpp
         - yes | haxelib install hxjava
         - yes | haxelib install hxcs
         - haxelib list
-
-    - haxe: "3.1.3"
-      install:
-        - yes | haxelib install hxcpp
-        - yes | haxelib install hxjava
-        - yes | haxelib install hxcs
-        - haxelib list
+      script:
+        - haxe test.hxml
 
     - haxe: "development"
       install:
+        - haxelib install hx3compat
         # install hxcpp
         - haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git
         - pushd $(haxelib path hxcpp | head -1)
@@ -40,6 +33,8 @@ matrix:
         - haxelib git hxjava https://github.com/HaxeFoundation/hxjava.git
         - haxelib git hxcs https://github.com/HaxeFoundation/hxcs.git
         - haxelib list
+      script:
+        - haxe -lib hx3compat test.hxml
 
 after_success:
   - if [[ $TRAVIS_TAG = v[0-9]* ]]; then
