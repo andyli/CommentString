@@ -43,7 +43,13 @@ class CommentString {
 	macro static public function format(string:ExprOf<String>):ExprOf<String> {
 		return switch (string.expr) {
 			case EConst(CString(s)):
-				MacroStringTools.formatString(s, string.pos);
+				// Note that MacroStringTools.formatString expect pos range to include quotes...
+				var pos = Context.getPosInfos(string.pos);
+				MacroStringTools.formatString(s, Context.makePosition({
+					file: pos.file,
+					min: pos.min - 1,
+					max: pos.max + 1
+				}));
 			case EBinop(OpAdd, e1, e2):
 				macro comments.CommentString.format($e1) + comments.CommentString.format($e2);
 			case _:

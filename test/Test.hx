@@ -182,6 +182,22 @@ assertEquals("First letter of \"ABC\": A", comment(unindent, format)/**
 } //testInterpolation
 
 
+
+public function testInterpolationNested():Void {
+
+assertEquals(
+"123
+456
+789",
+comment(format)
+//123
+//${comment(format)/*456*/}
+//789
+);
+
+} //testInterpolationNested
+
+
 public function testError():Void {
 
 assertCompliationError(comment());
