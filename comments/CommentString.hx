@@ -13,7 +13,8 @@ using Lambda;
 class CommentString {
 	macro static public function comment(transforms:Array<ExprOf<String->String>>):ExprOf<String> {
 		var pos = Context.getPosInfos(Context.currentPos());
-		var str = File.getContent(Context.resolvePath(pos.file)).substring(pos.max);
+		var fileStr = File.getContent(Context.resolvePath(pos.file));
+		var str = fileStr.substring(pos.max);
 		var cms = try {
 			readComments(str, pos.max);
 		} catch (e:Dynamic) {
@@ -142,10 +143,9 @@ class CommentString {
 		var spR  = ~/^\s+/;                            //spaces
 		while (string != "") {
 			if (mlR.match(string)) {
-				min += mlR.matched(0).length - mlR.matched(1).length - 2;
-				var c = { str: mlR.matched(1), min: min };
+				var c = { str: mlR.matched(1), min: min + 2 };
 				if (c.str.startsWith("*") || c.str.endsWith("*")) {
-					var lines = breakDown(c.str, {min:c.min, max: c.min+c.str.length-1});
+					var lines = breakDown(c.str, {min:c.min, max: c.min+c.str.length});
 					if (c.str.startsWith("*")) {
 						var first = lines.shift();
 						if (!~/^\*\s*$/.match(first.line)) {
@@ -174,18 +174,16 @@ class CommentString {
 				min += mlR.matched(0).length;
 				string = mlR.matchedRight();
 			} else if (slsR.match(string)) {
-				min += 2;
 				cm.push({
 					str: slsR.matched(1),
-					min: min
+					min: min + 2
 				});
 				min += slsR.matched(0).length;
 				string = slsR.matchedRight();
 			}  else if (slR.match(string)) {
-				min += 2;
 				cm.push({
 					str: slR.matched(1),
-					min: min
+					min: min + 2
 				});
 				min += slR.matched(0).length;
 				string = slR.matchedRight();
