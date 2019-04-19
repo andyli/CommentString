@@ -1,11 +1,13 @@
 language: haxe
 
 sudo: false
+dist: xenial
 
 addons:
   apt:
     packages:
-      - php5-cli
+      - php-cli
+      - php-mbstring
       - mono-devel
       - mono-mcs
 
