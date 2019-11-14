@@ -1,6 +1,5 @@
 language: haxe
 
-sudo: false
 dist: xenial
 
 addons:
@@ -22,7 +21,18 @@ matrix:
       script:
         - haxe test.hxml
 
+    - haxe: "4.0.2"
+      neko: "2.3.0"
+      install:
+        - yes | haxelib install hxcpp
+        - yes | haxelib install hxjava
+        - yes | haxelib install hxcs
+        - haxelib list
+      script:
+        - haxe test.hxml
+
     - haxe: "development"
+      neko: "2.3.0"
       install:
         - haxelib install hx3compat
         # install hxcpp

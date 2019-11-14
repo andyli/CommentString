@@ -45,11 +45,6 @@
 --next
 -swf bin\Test.swf
 
---next
--cmd echo "\nas3:"
---next
--as3 bin
-
 # --next
 # -cmd echo "\npython:"
 # --next
