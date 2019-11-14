@@ -1,5 +1,6 @@
 -main Test
 -cp test
+-lib hx3compat
 -debug
 --each
 

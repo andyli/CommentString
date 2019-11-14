@@ -14,6 +14,7 @@ matrix:
   include:
     - haxe: "3.4.7"
       install:
+        - yes | haxelib install hx3compat
         - yes | haxelib install hxcpp
         - yes | haxelib install hxjava
         - yes | haxelib install hxcs
@@ -24,6 +25,7 @@ matrix:
     - haxe: "4.0.2"
       neko: "2.3.0"
       install:
+        - yes | haxelib install hx3compat
         - yes | haxelib install hxcpp
         - yes | haxelib install hxjava
         - yes | haxelib install hxcs
@@ -46,7 +48,7 @@ matrix:
         - haxelib git hxcs https://github.com/HaxeFoundation/hxcs.git
         - haxelib list
       script:
-        - haxe -lib hx3compat test.hxml
+        - haxe test.hxml
 
 after_success:
   - if [[ $TRAVIS_TAG = v[0-9]* ]]; then

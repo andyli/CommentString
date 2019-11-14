@@ -10,6 +10,7 @@ install:
     - RefreshEnv
     - mkdir "%HAXELIB_ROOT%"
     - haxelib setup "%HAXELIB_ROOT%"
+    - haxelib install hx3compat > log.txt || type log.txt
     - haxelib install hxcpp > log.txt || type log.txt
     - haxelib install hxjava > log.txt || type log.txt
     # - haxelib install hxcs > log.txt || type log.txt
